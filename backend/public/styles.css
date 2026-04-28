@@ -1,0 +1,6 @@
+body{font-family:Segoe UI,Arial,sans-serif;margin:20px;color:#222}main{max-width:900px;margin:0 auto}#inputs{margin-bottom:20px}#patients .patientRow{display:flex;gap:8px;margin:6px 0}#patients input{padding:6px}button{padding:6px 10px;margin-right:6px}#resultTable{width:100%;border-collapse:collapse;margin-top:12px}#resultTable th,#resultTable td{border:1px solid #ddd;padding:8px;text-align:left}pre{background:#f9f9f9;padding:10px;border:1px solid #eee}
+#controls{margin-top:8px}
+#formMessage{margin-top:8px;color:#b33}
+.success{color:green}
+.patientRow input{min-width:120px}
+.patientRow button{background:#f5f5f5;border:1px solid #ddd}
