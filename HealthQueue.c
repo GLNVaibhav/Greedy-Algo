@@ -133,7 +133,6 @@ int main(int argc, char **argv) {
         }
     }
 
-    /* Print JSON result */
     printf("{\"totalSlots\": %.2f, \"patients\": [", totalSlots);
     for (int i = 0; i < n; i++) {
         printf("{\"name\": \"%s\", \"emergency\": %.2f, \"req_time\": %.2f, \"allocated\": %.2f}",
