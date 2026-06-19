@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HealthQueue — Priority Appointment Scheduler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="masthead">
+  <div class="masthead__inner">
+    <div class="masthead__brand">
+      <div class="pulse-dot"></div>
+      <div>
+        <h1 class="masthead__title">HealthQueue</h1>
+        <p class="masthead__sub">Priority-based appointment scheduler</p>
+      </div>
+    </div>
+
+    <svg class="ekg" viewBox="0 0 420 60" preserveAspectRatio="none" aria-hidden="true">
+      <polyline class="ekg__line" points="
+        0,30 40,30 55,30 65,6 72,52 80,20 88,36 100,30
+        140,30 180,30 195,30 205,6 212,52 220,20 228,36 240,30
+        280,30 320,30 335,30 345,6 352,52 360,20 368,36 380,30 420,30
+      "/>
+    </svg>
+
+    <div class="masthead__stats" id="headerStats">
+      <div class="stat">
+        <span class="stat__val" id="statCount">0</span>
+        <span class="stat__lbl">in queue</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main class="layout">
+
+  <!-- ── LEFT PANEL: Queue Builder ── -->
+  <aside class="panel panel--left">
+
+    <section class="card">
+      <h2 class="card__title">Add patient</h2>
+
+      <form id="addForm" class="form">
+        <div class="field">
+          <label for="pName">Patient name</label>
+          <input type="text" id="pName" name="name" required placeholder="e.g. Ravi Kumar" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label for="pEmergency">
+            Emergency level
+            <span class="field__hint" id="emergencyHint">— %</span>
+          </label>
+          <div class="slider-wrap">
+            <input type="range" id="pEmergencySlider" min="0" max="100" step="1" value="50" />
+            <input type="number" id="pEmergency" name="emergency" min="0" max="100" step="0.1" value="50" required placeholder="0–100" />
+          </div>
+          <div class="emergency-bar-preview" id="emergencyBarPreview">
+            <div class="emergency-bar-fill" id="emergencyBarFill" style="width:50%"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="pTime">Required consultation time <span class="field__unit">minutes</span></label>
+          <input type="number" id="pTime" name="req_time" min="1" step="0.5" required placeholder="e.g. 15" />
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--full">Add to queue</button>
+      </form>
+    </section>
+
+    <!-- Queue list -->
+    <section class="card card--queue">
+      <div class="card__titlerow">
+        <h2 class="card__title">Current queue</h2>
+        <button type="button" class="btn btn--ghost btn--sm" id="clearQueueBtn">Clear all</button>
+      </div>
+      <div id="queueList" class="queue-list">
+        <div class="empty" id="queueEmpty">No patients yet — add one above.</div>
+      </div>
+    </section>
+
+  </aside>
+
+  <!-- ── RIGHT PANEL: Scheduler ── -->
+  <section class="panel panel--right">
+
+    <section class="card card--schedule-form">
+      <h2 class="card__title">Run scheduler</h2>
+      <p class="card__hint">Enter the total time the doctor is available. The algorithm will assign slots in order of emergency level.</p>
+
+      <form id="scheduleForm" class="form form--inline">
+        <div class="field field--inline">
+          <label for="totalSlots">Total available time <span class="field__unit">minutes</span></label>
+          <input type="number" id="totalSlots" min="1" step="0.5" required placeholder="e.g. 60" />
+        </div>
+        <button type="submit" class="btn btn--accent btn--full">Run scheduler</button>
+      </form>
+    </section>
+
+    <!-- Results -->
+    <section class="card card--results" id="resultsCard" style="display:none">
+      <div class="results-header">
+        <h2 class="card__title">Schedule</h2>
+        <div class="summary-pills" id="summaryPills"></div>
+      </div>
+      <div class="results-table-wrap">
+        <table class="results-table" id="resultsTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Patient</th>
+              <th>Emergency</th>
+              <th>Req.</th>
+              <th>Allocated</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+      </div>
+      <div class="time-bar-wrap" id="timeBarWrap"></div>
+    </section>
+
+  </section>
+
+</main>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

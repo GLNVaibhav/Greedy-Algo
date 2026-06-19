@@ -1,0 +1,10 @@
+node_modules/
+npm-debug.log*
+
+# Runtime data — keep the folder, not its contents
+data/*.json
+!data/.gitkeep
+
+.env
+.DS_Store
+nohup.out
